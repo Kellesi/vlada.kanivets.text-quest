@@ -3,10 +3,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to the Text Adventure Game</title>
+    <title>You are dead</title>
     <style>
         body {
-            background-image: url('image/welcomeBackground.jpg');
+            background-image: url('image/dead.jpg');
             background-size: cover;
             text-align: center;
             font-family: Arial, sans-serif;
@@ -24,7 +24,7 @@
         #startButton {
             padding: 10px 20px;
             font-size: 18px;
-            background-color: #4CAF50; /* Цвет кнопки start */
+            background-color: #af3232; /* Цвет кнопки start */
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -32,18 +32,20 @@
         }
 
         #startButton:hover {
-            background-color: #45a049; /* Измененный цвет кнопки при наведении */
+            background-color: #962a2a; /* Измененный цвет кнопки при наведении */
         }
     </style>
 </head>
 <body>
-
+<%
+    String description = (String) request.getAttribute("description");
+%>
 <div id="container">
-    <h1>Welcome to the Text Adventure Game</h1>
-    <p>This is a thrilling text-based adventure where your choices shape the story.</p>
+    <h1>You are dead</h1>
+    <p><%= description%></p>
 
-    <form action="./quest/stage" method="get">
-        <button id="startButton" type="submit">Start</button>
+    <form action="../" method="get">
+        <button id="startButton" type="submit">Back to Start</button>
     </form>
 </div>
 

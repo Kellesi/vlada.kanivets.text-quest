@@ -5,8 +5,8 @@ import ua.javarush.textquest.controller.StageController;
 import ua.javarush.textquest.dispatcher.MethodMap;
 import ua.javarush.textquest.dispatcher.RegisterForControllers;
 import ua.javarush.textquest.entity.Stage;
-import ua.javarush.textquest.service.ContextReader;
-import ua.javarush.textquest.service.StageContextReaderJson;
+import ua.javarush.textquest.service.DataReader;
+import ua.javarush.textquest.service.StageDataReaderJson;
 
 import javax.servlet.ServletContext;
 import java.io.InputStream;
@@ -20,7 +20,7 @@ public class ApplicationContext {
     public static void loadStages(ServletContext context) {
         String jsonFilePath = context.getInitParameter("jsonFilePath");
         InputStream inputStream = context.getResourceAsStream(jsonFilePath);
-        ContextReader reader = new StageContextReaderJson(inputStream);
+        DataReader reader = new StageDataReaderJson(inputStream);
 
         stages = ((List<Stage>) reader.read()).stream().collect(Collectors.toMap(Stage::getStageID, stage -> stage));
     }
