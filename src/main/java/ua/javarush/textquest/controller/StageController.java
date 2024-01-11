@@ -2,6 +2,7 @@ package ua.javarush.textquest.controller;
 
 import ua.javarush.textquest.dispatcher.MethodType;
 import ua.javarush.textquest.dispatcher.RequestMapping;
+import ua.javarush.textquest.entity.Account;
 import ua.javarush.textquest.entity.Stage;
 
 import javax.servlet.ServletException;
@@ -37,9 +38,17 @@ public class StageController {
             req.setAttribute("stageImg", stageImg);
 
             if (stage.isDeadPoint()) {
+                if (req.getSession().getAttribute("isLoggedIn") != null) {
+                    Account account = (Account) req.getSession().getAttribute("account");
+                    account.setDeathCount(account.getDeathCount() + 1);
+                }
                 req.getRequestDispatcher("/dead.jsp").forward(req, resp);
             }
             if (stage.isEndPoint()) {
+                if (req.getSession().getAttribute("isLoggedIn") != null) {
+                    Account account = (Account) req.getSession().getAttribute("account");
+                    account.setDeathCount(account.getCollectedEndings() + 1);
+                }
                 req.getRequestDispatcher("/end.jsp").forward(req, resp);
             }
             req.getRequestDispatcher("/stage.jsp").forward(req, resp);

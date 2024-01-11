@@ -5,6 +5,8 @@
     <title>Text Adventure Game - Stage</title>
     <style>
         body {
+            background-image: url('/image/welcomeBackground.jpg');
+            background-size: cover;
             background-color: #343434;
             text-align: center;
             font-family: Arial, sans-serif;
@@ -32,10 +34,12 @@
 
         #choicesContainer {
             width: 100%;
+            height: fit-content;
         }
 
         #row, #cell {
             width: 100%;
+            height: fit-content;
         }
 
         #choiceButton {
@@ -44,7 +48,7 @@
             padding: 10px 20px;
             font-size: 16px;
             align-content: start;
-            background-color: #464646; /* Цвет кнопок выбора */
+            background-color: #464646;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -52,12 +56,12 @@
         }
 
         #choiceButton:hover {
-            background-color: #757575; /* Измененный цвет кнопок выбора при наведении */
+            background-color: #757575;
         }
     </style>
 </head>
 <body>
-
+<jsp:include page = "header.jsp"/>
 <%@ page import="ua.javarush.textquest.entity.StepChoice" %>
 
 
@@ -73,7 +77,7 @@
         <p><%= description %>
         </p>
     </div>
-    <form action=./stage method="get">
+
         <table id="choicesContainer">
             <%
                 for (int i = 0; i < choices.length; i++) {
@@ -81,7 +85,7 @@
             %>
             <tr id="row">
                 <td id="cell">
-                    <form action="./stage?choice=${choices[i].getId()}" method="get">
+                    <form action="/quest/stage?choice=${choices[i].getId()}" method="get">
                         <button id="choiceButton" type="submit" name="choice"
                                 value="<%= choices[i].getId()%>"><%= choices[i].getText() %>
                         </button>
@@ -92,9 +96,7 @@
                 }
             %>
         </table>
-    </form>
 </div>
-
 
 </body>
 </html>
