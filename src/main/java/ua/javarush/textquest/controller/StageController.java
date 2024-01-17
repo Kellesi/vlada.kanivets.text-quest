@@ -4,6 +4,7 @@ import ua.javarush.textquest.dispatcher.MethodType;
 import ua.javarush.textquest.dispatcher.RequestMapping;
 import ua.javarush.textquest.entity.Account;
 import ua.javarush.textquest.entity.Stage;
+import ua.javarush.textquest.exception.ServletExceptionHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,13 +29,13 @@ public class StageController {
             }
 
             Stage stage = stages.get(stageID);
-            String description = stage.getStageDescription();
+            String description = stage.getDescription();
             req.setAttribute("description", description);
 
             Object[] choises = stage.getStepChoices();
             req.setAttribute("choises", choises);
 
-            String stageImg = stage.getStageImg();
+            String stageImg = stage.getImg();
             req.setAttribute("stageImg", stageImg);
 
             if (stage.isDeadPoint()) {
@@ -52,10 +53,8 @@ public class StageController {
                 req.getRequestDispatcher("/end.jsp").forward(req, resp);
             }
             req.getRequestDispatcher("/stage.jsp").forward(req, resp);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (ServletException | IOException ex) {
+            ServletExceptionHandler.handle(req, resp, ex);
         }
     }
 }

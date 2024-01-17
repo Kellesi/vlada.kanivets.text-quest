@@ -10,10 +10,10 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class Stage {
-    private String stageDescription;
-    private int stageID;
     private StepChoice[] stepChoices;
-    private String stageImg;
+    private int id;
+    private String description;
+    private String img;
     private boolean isDeadPoint;
     private boolean isEndPoint;
 }
