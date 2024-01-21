@@ -13,6 +13,7 @@
         }
 
         #container {
+            position: relative;
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
@@ -58,44 +59,71 @@
         #choiceButton:hover {
             background-color: #757575;
         }
+
+        #overlay-button {
+            position: absolute;
+            right: 8%;
+            top: 5%;
+            height: 30px;
+            width: 25px;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        #saveImg {
+            height: 30px;
+            width: 25px;
+        }
     </style>
 </head>
 <body>
-<jsp:include page = "header.jsp"/>
+<jsp:include page="header.jsp"/>
 <%@ page import="ua.javarush.textquest.entity.StepChoice" %>
+<%@ page import="ua.javarush.textquest.entity.Stage" %>
 
 
 <%
-    String description = (String) request.getAttribute("description");
-    StepChoice[] choices = (StepChoice[]) request.getAttribute("choises");
-    String stageImg = (String) request.getAttribute("stageImg");
+    Stage stage = (Stage) request.getAttribute("stage");
+    String description = stage.getDescription();
+    StepChoice[] choices = stage.getStepChoices();
+    String stageImg = stage.getImg();
 %>
 
 <div id="container">
-    <img id="sceneImage" src="<%=stageImg%>" alt="Stage">
+
+    <div>
+        <img id="sceneImage" src="<%=stageImg%>" alt="Stage">
+        <form action="/quest/save" method="post">
+            <input type="hidden" name="savePoint" value="${pageContext.request.getParameter("choice")}">
+            <button id="overlay-button" type="submit" name="save" value="save">
+                <img id="saveImg" src="/image/save-icon.png"/>
+            </button>
+        </form>
+    </div>
     <div id="sceneText">
         <p><%= description %>
         </p>
     </div>
 
-        <table id="choicesContainer">
-            <%
-                for (int i = 0; i < choices.length; i++) {
+    <table id="choicesContainer">
+        <%
+            for (int i = 0; i < choices.length; i++) {
 
-            %>
-            <tr id="row">
-                <td id="cell">
-                    <form action="/quest/stage?choice=${choices[i].getId()}" method="get">
-                        <button id="choiceButton" type="submit" name="choice"
-                                value="<%= choices[i].getId()%>"><%= choices[i].getText() %>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            <%
-                }
-            %>
-        </table>
+        %>
+        <tr id="row">
+            <td id="cell">
+                <form action="/quest/stage" method="get">
+                    <button id="choiceButton" type="submit" name="choice"
+                            value="<%= choices[i].getId()%>"><%= choices[i].getText() %>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
 </div>
 
 </body>

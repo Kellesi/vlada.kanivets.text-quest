@@ -7,7 +7,7 @@
     <title>You are dead</title>
     <style>
         body {
-            background-image: url('/image/dead.jpg');
+            background-image: url('/image/welcomeBackground.jpg');
             background-size: cover;
             text-align: center;
             font-family: Arial, sans-serif;
@@ -44,7 +44,7 @@
     String description = stage.getDescription();
 %>
 <div id="container">
-    <h1>Ви померли</h1>
+    <h1>Кінець</h1>
     <p><%= description%>
     </p>
 

@@ -67,7 +67,7 @@
         </a>
         <% } else { %>
         <a href="/quest/login" class="nav-link">Залогуватись</a>
-        <a href="/registration" class="nav-link">Реєстрація</a>
+        <a href="/quest/registration2" class="nav-link">Реєстрація</a>
         <% } %>
     </div>
 </div>

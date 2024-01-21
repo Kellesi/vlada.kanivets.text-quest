@@ -60,15 +60,14 @@
 <jsp:include page="header.jsp"/>
 <div id="container">
     <form action="/quest/login2" method="post">
-        <h2>Login Page</h2>
 
-        <label for="login">Login:</label>
+        <label for="login">Логін:</label>
         <input type="text" id="login" name="login" required>
 
-        <label for="password">Password:</label>
+        <label for="password">Пароль:</label>
         <input type="password" id="password" name="password" required>
 
-        <input type="submit" value="Login">
+        <input type="submit" value="Логін">
 
         <c:if test="${not empty requestScope.errorMessage}">
             <p class="error-message">${requestScope.errorMessage}</p>

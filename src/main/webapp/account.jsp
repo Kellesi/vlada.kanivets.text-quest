@@ -23,32 +23,16 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
-
-        .btn {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-        }
     </style>
 </head>
 <body>
-<jsp:include page = "header.jsp"/>
+<jsp:include page="header.jsp"/>
 <%
     Account account = (Account) session.getAttribute("account");
     String username = account.getName();
     int endingsReceived = account.getCollectedEndings();
     int deaths = account.getDeathCount();
+    String savePoint = account.getSavePoint();
 %>
 
 <div class="account-info">
@@ -59,6 +43,16 @@
     </p>
     <p><strong>Кількість смертей персонажа:</strong> <%= deaths %>
     </p>
+
+    <% if (savePoint != null) { %>
+    <form action="/quest/stage" method="get">
+        <button id="choiceButton" type="submit" name="choice" value=<%=savePoint%>>
+            Продовжити
+        </button>
+    </form>
+    <% } else { %>
+    <p>Намає контрольної точки</p>
+    <% } %>
 </div>
 
 </body>
