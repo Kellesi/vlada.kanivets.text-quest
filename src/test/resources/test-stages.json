@@ -1,0 +1,59 @@
+[
+  {
+    "id": 0,
+    "description": "description",
+    "stepChoices": [
+      {
+        "id": 1,
+        "text": "text"
+      },
+      {
+        "id": 2,
+        "text": "text"
+      },
+      {
+        "id": 3,
+        "text": "text"
+      }
+    ],
+    "img": "img"
+  },
+  {
+    "id": 1,
+    "description": "description",
+    "stepChoices": [
+      {
+        "id": 1,
+        "text": "text"
+      },
+      {
+        "id": 2,
+        "text": "text"
+      },
+      {
+        "id": 3,
+        "text": "text"
+      }
+    ],
+    "img": "img"
+  },
+  {
+    "id": 2,
+    "description": "description",
+    "stepChoices": [
+      {
+        "id": 1,
+        "text": "text"
+      },
+      {
+        "id": 2,
+        "text": "text"
+      },
+      {
+        "id": 3,
+        "text": "text"
+      }
+    ],
+    "img": "img"
+  }
+]

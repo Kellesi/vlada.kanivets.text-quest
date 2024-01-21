@@ -8,25 +8,24 @@ import ua.javarush.textquest.dispatcher.MethodMap;
 import ua.javarush.textquest.dispatcher.RegisterForControllers;
 import ua.javarush.textquest.entity.Account;
 import ua.javarush.textquest.entity.Stage;
-import ua.javarush.textquest.repository.UserInMemoryRepository;
+import ua.javarush.textquest.repository.AccountInMemoryRepository;
 import ua.javarush.textquest.repository.Repository;
-import ua.javarush.textquest.repository.StageDataRepositoryJson;
+import ua.javarush.textquest.repository.StageDataJsonRepository;
 import ua.javarush.textquest.service.AccountService;
 
 import javax.servlet.ServletContext;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ApplicationContext {
     @Getter
-    private static final Repository<Account> ACCOUNT_REPOSITORY = new UserInMemoryRepository();
+    private static final Repository<Account> ACCOUNT_REPOSITORY = new AccountInMemoryRepository();
     @Getter
     private static final AccountService accountService = new AccountService(ACCOUNT_REPOSITORY);
     private static Repository<Stage> stageRepository;
-    private static Map<Integer, Stage> stages;
+    private static Map<String, Stage> stages;
 
     public static void initJsonRepositoryFromServletContext(ServletContext servletContext) {
-        stageRepository = new StageDataRepositoryJson(servletContext);
+        stageRepository = new StageDataJsonRepository(servletContext);
         stages = idToStages();
     }
 
@@ -34,7 +33,7 @@ public class ApplicationContext {
         return new RegisterForControllers().register(new StageController(stages), new LoginController(), new AccountController());
     }
 
-    private static Map<Integer, Stage> idToStages() {
-        return stageRepository.findAll().stream().collect(Collectors.toMap(Stage::getId, stage -> stage));
+    private static Map<String, Stage> idToStages() {
+        return stageRepository.findAll();
     }
 }

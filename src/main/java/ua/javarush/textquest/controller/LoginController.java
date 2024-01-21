@@ -3,9 +3,9 @@ package ua.javarush.textquest.controller;
 import ua.javarush.textquest.dispatcher.MethodType;
 import ua.javarush.textquest.dispatcher.RequestMapping;
 import ua.javarush.textquest.entity.Account;
-import ua.javarush.textquest.exception.InvalidPasswordException;
+import ua.javarush.textquest.exception.InvalidPasswordRuntimeException;
 import ua.javarush.textquest.exception.ServletExceptionHandler;
-import ua.javarush.textquest.exception.UserNotFoundException;
+import ua.javarush.textquest.exception.UserNotFoundRuntimeException;
 import ua.javarush.textquest.injector.ApplicationContext;
 import ua.javarush.textquest.repository.Repository;
 import ua.javarush.textquest.service.AccountService;
@@ -46,8 +46,8 @@ public class LoginController {
             req.getSession().setAttribute("isLoggedIn", true);
             req.getSession().setAttribute("account", account);
             req.getRequestDispatcher("/account.jsp").forward(req, resp);
-        } catch (UserNotFoundException | InvalidPasswordException e) {
-            handleWrongInputException(req, resp, e);
+        } catch (UserNotFoundRuntimeException | InvalidPasswordRuntimeException e) {
+            ServletExceptionHandler.handleLoginException(req, resp, e);
         } catch (ServletException | IOException ex) {
             ServletExceptionHandler.handle(req, resp, ex);
         }
@@ -74,15 +74,6 @@ public class LoginController {
         try {
             resp.sendRedirect("/registration.jsp");
         } catch (IOException ex) {
-            ServletExceptionHandler.handle(req, resp, ex);
-        }
-    }
-
-    private void handleWrongInputException(HttpServletRequest req, HttpServletResponse resp, Throwable e) {
-        req.setAttribute("errorMessage", e.getMessage());
-        try {
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
-        } catch (ServletException | IOException ex) {
             ServletExceptionHandler.handle(req, resp, ex);
         }
     }

@@ -5,6 +5,7 @@ import ua.javarush.textquest.dispatcher.RequestMapping;
 import ua.javarush.textquest.entity.Account;
 import ua.javarush.textquest.entity.Stage;
 import ua.javarush.textquest.exception.ServletExceptionHandler;
+import ua.javarush.textquest.injector.ApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,46 +14,41 @@ import java.io.IOException;
 import java.util.Map;
 
 public class StageController {
-    private final Map<Integer, Stage> stages;
+    private final Map<String, Stage> stages;
 
-    public StageController(Map<Integer, Stage> stages) {
+    public StageController(Map<String, Stage> stages) {
         this.stages = stages;
     }
 
     @RequestMapping(url = "/stage", method = MethodType.GET)
-    public void getStage(HttpServletRequest req, HttpServletResponse resp) {
+    public void showStage(HttpServletRequest req, HttpServletResponse resp) {
         try {
             String choice = req.getParameter("choice");
-            int stageID = 0;
+            String stageID = "0";
             if (choice != null) {
-                stageID = Integer.parseInt(choice);
+                stageID = choice;
             }
 
             Stage stage = stages.get(stageID);
-            String description = stage.getDescription();
-            req.setAttribute("description", description);
-
-            Object[] choises = stage.getStepChoices();
-            req.setAttribute("choises", choises);
-
-            String stageImg = stage.getImg();
-            req.setAttribute("stageImg", stageImg);
+            req.setAttribute("stage", stage);
 
             if (stage.isDeadPoint()) {
                 if (req.getSession().getAttribute("isLoggedIn") != null) {
                     Account account = (Account) req.getSession().getAttribute("account");
                     account.setDeathCount(account.getDeathCount() + 1);
+                    ApplicationContext.getACCOUNT_REPOSITORY().update(account);
                 }
                 req.getRequestDispatcher("/dead.jsp").forward(req, resp);
-            }
-            if (stage.isEndPoint()) {
+            } else if (stage.isEndPoint()) {
                 if (req.getSession().getAttribute("isLoggedIn") != null) {
                     Account account = (Account) req.getSession().getAttribute("account");
                     account.setDeathCount(account.getCollectedEndings() + 1);
+                    ApplicationContext.getACCOUNT_REPOSITORY().update(account);
                 }
                 req.getRequestDispatcher("/end.jsp").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("/stage.jsp").forward(req, resp);
             }
-            req.getRequestDispatcher("/stage.jsp").forward(req, resp);
         } catch (ServletException | IOException ex) {
             ServletExceptionHandler.handle(req, resp, ex);
         }
